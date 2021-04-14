@@ -40,8 +40,6 @@ if __name__ == "__main__":
         print("Invalid arguments!")
         pass
 
-
-    filePath = sys.argv[1]
     dataFrag = DataFragmentor(filePath, (3,3))
     dataFrag.sliceImg()
     print("Slicing complete")
