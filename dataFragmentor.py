@@ -5,13 +5,15 @@ from PIL import Image
 
 class DataFragmentor:
     def __init__(self, imgPath, grid, outPath="croppedImage"):
+        self.imgPath = imgPath
         self.img = Image.open(imgPath)
-        self.gridShape = grid
+        self.gridShape = (int(grid[0]), int(grid[1]))
         self.outPath = outPath
     
     def sliceImg(self):
-        if not os.path.exists(self.outPath):
-            os.makedirs(self.outPath)
+        imgName = self.imgPath.split(".")[0]
+        if not os.path.exists(imgName):
+            os.makedirs(imgName)
         imgWidth, imgHeight = self.img.size
         width = int(imgWidth / self.gridShape[0])
         height = int(imgHeight / self.gridShape[1])
@@ -22,15 +24,15 @@ class DataFragmentor:
                 box = (r, c, r+width, c+height)
                 cropped = self.img.crop(box)
                 try:
-                    outputPath = "{}/C{}_R{}.jpg".format(self.outPath, i, j)
+                    outputPath = "{}/C{}_R{}.jpg".format(imgName, i, j)
                     cropped.save(outputPath)
                 except:
                     pass
 
 
 if __name__ == "__main__":
-    filePath = None
-    grid = (3,3)
+    filePath = "test.jpg"
+    grid = (4,4)
     if len(sys.argv) == 2:
         filePath = sys.argv[1]
     elif len(sys.argv) == 4:
